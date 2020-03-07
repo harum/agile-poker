@@ -12,7 +12,6 @@ module.exports = {
   mode: 'development',
   entry: {
     index: './src/entries/index.js',
-    app: './src/entries/app.js',
   },
   output: {
     filename: '[name].bundle.js',
@@ -41,26 +40,20 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      // Generates default index.html
-      meta,
-      title: 'Webpack Javascript Template',
-      chunks: ['index'],
-    }),
-    new HtmlWebpackPlugin({
       // Generates app.html
       meta,
-      filename: 'app.html',
-      template: 'src/templates/app.html',
-      title: 'Webpack Javascript App Template',
-      chunks: ['app'],
+      filename: 'index.html',
+      template: 'src/templates/index.html',
+      title: 'Agile Poker',
+      chunks: ['index'],
     }),
     new FaviconsWebpackPlugin({
-      logo: path.resolve(__dirname, '../src/images/logo.png'),
+      logo: path.resolve(__dirname, '../src/images/app.png'),
       prefix: '',
       favicons: {
-        appName: 'My App',
-        appShortName: 'App',
-        appDescription: 'This is my application',
+        appName: 'Agile Planning Poker',
+        appShortName: 'Agile Poker',
+        appDescription: 'Planning poker for agile complexity vote',
         developerName: 'Putu Harum Bawa',
         developerURL: 'https://harumbawa.com/',
         background: '#b7e183',

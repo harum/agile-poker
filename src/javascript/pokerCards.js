@@ -1,12 +1,7 @@
 function pokerCard(value) {
   const element = document.createElement('div');
-  element.classList.add('c-card');
-
-  const base = document.createElement('div');
-  base.classList.add('c-card__base', 'js-card');
-  base.textContent = value;
-
-  element.appendChild(base);
+  element.classList.add('c-card', 'js-card');
+  element.textContent = value;
 
   return element;
 }
@@ -17,17 +12,16 @@ function attachEvents(element) {
       return;
     }
 
-    if (event.target.className.includes('c-card--active')) {
+    if (event.target.className.includes('c-card--full')) {
       event.target.setAttribute(
         'style',
         `
         left: ${event.target.dataset.left}px;
         top: ${event.target.dataset.top}px;
-        position: absolute
+        position: fixed;
       `,
       );
-      event.target.classList.remove('c-card--active-start');
-      event.target.classList.remove('c-card--active');
+      event.target.classList.remove('c-card--full');
 
       window.setTimeout(function resetStyle() {
         event.target.setAttribute('style', '');
@@ -36,18 +30,17 @@ function attachEvents(element) {
       event.target.setAttribute('data-top', event.target.offsetTop);
       event.target.setAttribute('data-left', event.target.offsetLeft);
 
-      event.target.classList.add('c-card--active-start');
       event.target.setAttribute(
         'style',
         `
         left: ${event.target.dataset.left}px;
         top: ${event.target.dataset.top}px;
-        position: absolute
+        position: fixed;
       `,
       );
 
       window.setTimeout(function waitX() {
-        event.target.classList.add('c-card--active');
+        event.target.classList.add('c-card--full');
         event.target.setAttribute(
           'style',
           `
@@ -56,7 +49,7 @@ function attachEvents(element) {
           position: absolute
         `,
         );
-      }, 0);
+      }, 200);
     }
   });
 }
@@ -68,7 +61,10 @@ function pokerCards() {
 
   const options = [1, 2, 3, 4, 5, 6, 7, 8];
   options.forEach(function appendCard(option) {
-    element.appendChild(pokerCard(option));
+    const cardElement = document.createElement('div');
+    cardElement.classList.add('c-cards__item');
+    cardElement.appendChild(pokerCard(option));
+    element.appendChild(cardElement);
   });
 
   return element;

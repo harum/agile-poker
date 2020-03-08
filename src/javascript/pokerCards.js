@@ -61,8 +61,12 @@ function handleClickEvent(parent) {
         cardElement.setAttribute('style', '');
       }, 500);
     } else {
-      window.history.pushState({ option: 1 }, 'title 1', '?page=1');
       currentOption = cardElement.dataset.value;
+      window.history.pushState(
+        { option: currentOption },
+        document.title,
+        `?option=${currentOption}`,
+      );
 
       cardElement.setAttribute('data-top', cardElement.offsetTop);
       cardElement.setAttribute('data-left', cardElement.offsetLeft);

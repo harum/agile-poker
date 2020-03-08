@@ -8,7 +8,9 @@
 }
 
 :root {
-  --color-primary: #eb1111;
+  --color-text: #343b3b;
+  --color-background: #defbfb;
+  --color-border: #cbf5f5;
 }
 
 * {
@@ -67,11 +69,13 @@ header, main, footer {
 }
 
 .c-card {
-  color: var(--color-primary);
-  background-color: #eaeaea;
+  color: var(--color-text);
+  background-color: var(--color-background);
   width: 4.5em;
   height: 6.75em;
   cursor: pointer;
+  border-radius: 0.25em;
+  border: solid 0.15em var(--color-border);
 
   transition-property: width height background-color font-size left top color
   posiiton;
@@ -109,10 +113,9 @@ header, main, footer {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #2f2f2f;
 
   .c-card__text {
-    font-size: 12em;
+    font-size: 16em;
   }
 
   .c-card__icon {

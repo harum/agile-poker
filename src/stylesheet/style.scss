@@ -62,12 +62,48 @@ header, main, footer {
 
 .c-card {
   color: var(--color-primary);
-  min-width: 6em;
-  height: 9em;
+  width: 7em;
+  height: 10em;
   padding: 0.5em;
 }
 
 .c-card__base {
   background-color: #eaeaea;
+  width: 6em;
+  height: 9em;
+
+  transition-property: width height background-color font-size left top color
+  posiiton;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.c-card__ {
+  background-color: #eaeaea;
+  width: 6em;
+  height: 9em;
+
+  transition-property: width height background-color font-size left top color
+  posiiton;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.c-card--active-start {
+  position: fixed;
+  background-color: blue;
+}
+
+.c-card--active {
+  width: 100%;
   height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #2f2f2f;
+
+  transition-property: width height background-color font-size left top color
+  posiiton;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
 }

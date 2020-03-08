@@ -8,9 +8,12 @@ const icons = {
   break: BreakIcon,
 };
 
+let currentOption = '';
+
 function pokerCard(value) {
   const element = document.createElement('div');
   element.classList.add('c-card', 'js-card');
+  element.setAttribute('data-value', value);
 
   const content = document.createElement('div');
   content.classList.add('c-card__content');
@@ -31,14 +34,19 @@ function pokerCard(value) {
   return element;
 }
 
-function attachEvents(element) {
-  element.addEventListener('click', function handleClick(event) {
+function handleClickEvent(parent) {
+  parent.addEventListener('click', function handleClick(event) {
     event.stopPropagation();
     const cardElement = event.target.closest('.js-card');
 
     if (!cardElement) return;
 
     if (cardElement.className.includes('c-card--full')) {
+      if (currentOption) {
+        currentOption = '';
+        window.history.back();
+      }
+
       cardElement.setAttribute(
         'style',
         `
@@ -53,6 +61,9 @@ function attachEvents(element) {
         cardElement.setAttribute('style', '');
       }, 500);
     } else {
+      window.history.pushState({ option: 1 }, 'title 1', '?page=1');
+      currentOption = cardElement.dataset.value;
+
       cardElement.setAttribute('data-top', cardElement.offsetTop);
       cardElement.setAttribute('data-left', cardElement.offsetLeft);
 
@@ -78,6 +89,21 @@ function attachEvents(element) {
       }, 200);
     }
   });
+}
+
+function handleBackEvent() {
+  window.onpopstate = function handleBack() {
+    if (currentOption) {
+      const temp = currentOption;
+      currentOption = '';
+      document.querySelector(`[data-value="${temp}"]`).click();
+    }
+  };
+}
+
+function attachEvents(parent) {
+  handleClickEvent(parent);
+  handleBackEvent();
 }
 
 function pokerCards(options = []) {

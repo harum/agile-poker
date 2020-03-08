@@ -1,47 +1,73 @@
+import InfinityIcon from '../images/infinity.png';
+import QuestionIcon from '../images/question.png';
+import BreakIcon from '../images/break.png';
+
+const icons = {
+  infinity: InfinityIcon,
+  question: QuestionIcon,
+  break: BreakIcon,
+};
+
 function pokerCard(value) {
   const element = document.createElement('div');
   element.classList.add('c-card', 'js-card');
-  element.textContent = value;
 
+  const content = document.createElement('div');
+  content.classList.add('c-card__content');
+
+  if (['question', 'infinity', 'break'].includes(value)) {
+    const cardIcon = new Image();
+    cardIcon.src = icons[value];
+    cardIcon.classList.add('c-card__icon');
+    content.appendChild(cardIcon);
+  } else {
+    const text = document.createElement('div');
+    text.classList.add('c-card__text');
+    text.textContent = value;
+    content.appendChild(text);
+  }
+
+  element.appendChild(content);
   return element;
 }
 
 function attachEvents(element) {
   element.addEventListener('click', function handleClick(event) {
-    if (!event.target || !event.target.className.includes('js-card')) {
-      return;
-    }
+    event.stopPropagation();
+    const cardElement = event.target.closest('.js-card');
 
-    if (event.target.className.includes('c-card--full')) {
-      event.target.setAttribute(
+    if (!cardElement) return;
+
+    if (cardElement.className.includes('c-card--full')) {
+      cardElement.setAttribute(
         'style',
         `
-        left: ${event.target.dataset.left}px;
-        top: ${event.target.dataset.top}px;
+        left: ${cardElement.dataset.left}px;
+        top: ${cardElement.dataset.top}px;
         position: fixed;
       `,
       );
-      event.target.classList.remove('c-card--full');
+      cardElement.classList.remove('c-card--full');
 
       window.setTimeout(function resetStyle() {
-        event.target.setAttribute('style', '');
+        cardElement.setAttribute('style', '');
       }, 500);
     } else {
-      event.target.setAttribute('data-top', event.target.offsetTop);
-      event.target.setAttribute('data-left', event.target.offsetLeft);
+      cardElement.setAttribute('data-top', cardElement.offsetTop);
+      cardElement.setAttribute('data-left', cardElement.offsetLeft);
 
-      event.target.setAttribute(
+      cardElement.setAttribute(
         'style',
         `
-        left: ${event.target.dataset.left}px;
-        top: ${event.target.dataset.top}px;
+        left: ${cardElement.dataset.left}px;
+        top: ${cardElement.dataset.top}px;
         position: fixed;
       `,
       );
 
       window.setTimeout(function waitX() {
-        event.target.classList.add('c-card--full');
-        event.target.setAttribute(
+        cardElement.classList.add('c-card--full');
+        cardElement.setAttribute(
           'style',
           `
           left: 0px;
@@ -54,12 +80,11 @@ function attachEvents(element) {
   });
 }
 
-function pokerCards() {
+function pokerCards(options = []) {
   const element = document.createElement('div');
   element.classList.add('c-cards');
   attachEvents(element);
 
-  const options = [1, 2, 3, 4, 5, 6, 7, 8];
   options.forEach(function appendCard(option) {
     const cardElement = document.createElement('div');
     cardElement.classList.add('c-cards__item');
